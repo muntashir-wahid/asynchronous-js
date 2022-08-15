@@ -34,6 +34,15 @@ const renderError = function (message) {
   // countriesContainer.style.opacity = "1";
 };
 
+const getJSON = function (url, errorMsg = "") {
+  return fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error(`${errorMsg}(${response.status})`);
+    }
+    return response.json();
+  });
+};
+
 /*
 
 const countryCard = function (countryName) {
@@ -149,24 +158,31 @@ setTimeout(() => {
 
 const getCountryData = function (country) {
   // Country 1
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then((response) => {
-      console.log(response);
-      if (!response.ok) {
-        throw new Error(`Country not found(${response.status})`);
-      }
-      return response.json();
-    })
+  // fetch(`https://restcountries.com/v3.1/name/${country}`)
+  //   .then((response) => {
+  //     console.log(response);
+  //     if (!response.ok) {
+  //       throw new Error(`Country not found(${response.status})`);
+  //     }
+  //     return response.json();
+  //   })
+  getJSON(
+    `https://restcountries.com/v3.1/name/${country}`,
+    "Country not found!"
+  )
     .then((data) => {
       renderCountry(data[0]);
+      if (!data[0].borders) {
+        throw new Error("No neighbout found");
+      }
       const neighbour = data[0].borders[0];
 
-      if (!neighbour) return;
-
       // Country 2
-      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+      return getJSON(
+        `https://restcountries.com/v3.1/alpha/${neighbour}`,
+        "Country not found!"
+      );
     })
-    .then((response) => response.json())
     .then((data) => renderCountry(data[0], "neighbour"))
     .catch((err) => {
       console.error(`${err}`);
@@ -178,7 +194,7 @@ const getCountryData = function (country) {
 };
 
 btn.addEventListener("click", function () {
-  getCountryData("bangladesh");
+  getCountryData("nepal");
 });
 
-getCountryData("gsffgjf");
+// getCountryData("gsffgjf");

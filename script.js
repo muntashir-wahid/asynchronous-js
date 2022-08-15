@@ -150,7 +150,13 @@ setTimeout(() => {
 const getCountryData = function (country) {
   // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then((response) => response.json())
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`Country not found(${response.status})`);
+      }
+      return response.json();
+    })
     .then((data) => {
       renderCountry(data[0]);
       const neighbour = data[0].borders[0];
@@ -163,8 +169,8 @@ const getCountryData = function (country) {
     .then((response) => response.json())
     .then((data) => renderCountry(data[0], "neighbour"))
     .catch((err) => {
-      console.error(`${err} 🔥🔥🔥`);
-      renderError(`Something went wrong ${err.message}`);
+      console.error(`${err}`);
+      renderError(`Something went wrong. ${err.message}.Try again!`);
     })
     .finally(() => {
       countriesContainer.style.opacity = "1";
@@ -174,3 +180,5 @@ const getCountryData = function (country) {
 btn.addEventListener("click", function () {
   getCountryData("bangladesh");
 });
+
+getCountryData("gsffgjf");

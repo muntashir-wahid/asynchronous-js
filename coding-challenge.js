@@ -3,8 +3,6 @@
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
-console.log(btn, countriesContainer);
-
 const renderCountry = function (data, className = "") {
   const html = `
     <article class="country ${className}">
@@ -35,21 +33,19 @@ const whereAmI = function (lat, lng) {
   )
     .then((response) => response.json())
     .then((data) => {
-      // console.log(data.country);
-      const country = data.country.toLowerCase();
-      console.log(country);
       console.log(`You are in ${data.city}, ${data.country}`);
+      const country = data.country.toLowerCase();
       return fetch(`https://restcountries.com/v3.1/name/${country}`);
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data[0]);
       renderCountry(data[0]);
-    });
+    })
+    .catch((err) => console.error(`Something went wrong.${err.message}!`));
 };
 
 btn.addEventListener("click", function () {
-  whereAmI(23.811056, 90.407608);
+  whereAmI(52.508, 13.381);
 });
 
 // whereAmI(52.508, 13.381);

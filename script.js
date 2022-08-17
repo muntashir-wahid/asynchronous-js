@@ -194,7 +194,7 @@ const getCountryData = function (country) {
 };
 
 btn.addEventListener("click", function () {
-  getCountryData("nepal");
+  getCountryData("bangladesh");
 });
 
 // getCountryData("gsffgjf");

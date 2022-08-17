@@ -154,8 +154,6 @@ setTimeout(() => {
   }, 1000);
 }, 1000);
 
-*/
-
 const getCountryData = function (country) {
   // Country 1
   // fetch(`https://restcountries.com/v3.1/name/${country}`)
@@ -198,3 +196,10 @@ btn.addEventListener("click", function () {
 });
 
 // getCountryData("gsffgjf");
+
+*/
+
+console.log("Test start");
+setTimeout(() => {
+  console.log("0 second passes");
+}, 0);
